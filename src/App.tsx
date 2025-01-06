@@ -1,7 +1,7 @@
 import { useState } from "react";
 import * as C from "./App.styles";
 import {Item} from './types/item';
-import {ListItem} from "./components/listItem";
+import ListItem from "./components/listItem";
 import { AddArea } from "./components/AddArea";
 
 

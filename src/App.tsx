@@ -1,34 +1,51 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import * as C from "./App.styles";
+import {Item} from './types/item';
+import {ListItem} from "./components/listItem";
+import { AddArea } from "./components/AddArea";
 
-function App() {
-  const [count, setCount] = useState(0)
+
+
+const App = ()=>{ 
+const [list, setList] = useState<Item[]>([{id:1, name:'Aula de Ingles', done: true},
+     {id:2, name:'Estudar ', done: false},]);
+
+     const handleAddTesk=(taskName:string)=>{
+      const newList = [...list];
+      newList.push({
+        id:list.length + 1,
+        name: taskName,
+        done: false,
+
+      });
+      setList(newList);
+     }
+     const handleTaskChange = (id: number, done: boolean) => {
+      const newList= [...list];
+      for(const i in newList){ 
+        if(newList[i].id === id) {
+          newList[i].done = done;
+        }
+      }
+      setList(newList);
+    }
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <C.Container>
+        <C.Area>
+          <C.Header>
+            Lista de tarefas
+          </C.Header>
+          <AddArea onEnter={handleAddTesk}/>
+          {list.map((item, index)=>(
+            <ListItem
+            key={index}
+            item={item}
+            onChange={handleTaskChange}
+          />
+          ))}
+        </C.Area> 
+    </C.Container>
   )
 }
 
